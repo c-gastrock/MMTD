@@ -9,19 +9,26 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+using namespace juce;
+
 //==============================================================================
 ChaseGP03MMTDAudioProcessor::ChaseGP03MMTDAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
+                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
                       #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
+                       .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        )
 #endif
 {
+    addParameter(numTaps = new AudioParameterInt("Number of Taps", // parameterID,
+        "NumTaps", // parameterName,
+        1, // minValue,
+        8, // maxValue,
+        1)); // default 1 tap
 }
 
 ChaseGP03MMTDAudioProcessor::~ChaseGP03MMTDAudioProcessor()
@@ -29,7 +36,7 @@ ChaseGP03MMTDAudioProcessor::~ChaseGP03MMTDAudioProcessor()
 }
 
 //==============================================================================
-const juce::String ChaseGP03MMTDAudioProcessor::getName() const
+const String ChaseGP03MMTDAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
@@ -81,12 +88,12 @@ void ChaseGP03MMTDAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String ChaseGP03MMTDAudioProcessor::getProgramName (int index)
+const String ChaseGP03MMTDAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void ChaseGP03MMTDAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void ChaseGP03MMTDAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
@@ -107,15 +114,15 @@ void ChaseGP03MMTDAudioProcessor::releaseResources()
 bool ChaseGP03MMTDAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
-    juce::ignoreUnused (layouts);
+    ignoreUnused (layouts);
     return true;
   #else
     // This is the place where you check if the layout is supported.
     // In this template code we only support mono or stereo.
     // Some plugin hosts, such as certain GarageBand versions, will only
     // load plugins that support stereo bus layouts.
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
+    if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
+     && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
         return false;
 
     // This checks if the input layout matches the output layout
@@ -129,9 +136,9 @@ bool ChaseGP03MMTDAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-void ChaseGP03MMTDAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void ChaseGP03MMTDAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    juce::ScopedNoDenormals noDenormals;
+    ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
@@ -164,13 +171,13 @@ bool ChaseGP03MMTDAudioProcessor::hasEditor() const
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* ChaseGP03MMTDAudioProcessor::createEditor()
+AudioProcessorEditor* ChaseGP03MMTDAudioProcessor::createEditor()
 {
     return new ChaseGP03MMTDAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void ChaseGP03MMTDAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void ChaseGP03MMTDAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
@@ -185,7 +192,7 @@ void ChaseGP03MMTDAudioProcessor::setStateInformation (const void* data, int siz
 
 //==============================================================================
 // This creates new instances of the plugin..
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new ChaseGP03MMTDAudioProcessor();
 }

@@ -12,6 +12,8 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="jxJX2r" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="CK27is" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
+    <FILE id="ey5ICb" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>

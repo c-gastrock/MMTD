@@ -11,17 +11,19 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
+using namespace juce;
+
 //==============================================================================
 /**
 */
-class ChaseGP03MMTDAudioProcessorEditor  : public juce::AudioProcessorEditor
+class ChaseGP03MMTDAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
     ChaseGP03MMTDAudioProcessorEditor (ChaseGP03MMTDAudioProcessor&);
     ~ChaseGP03MMTDAudioProcessorEditor() override;
 
     //==============================================================================
-    void paint (juce::Graphics&) override;
+    void paint (Graphics&) override;
     void resized() override;
 
 private:
