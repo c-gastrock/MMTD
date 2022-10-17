@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "DelayModule.h"
+#include "StkLite-4.6.2/StkLite-4.6.2/Delay.h"
 
 using namespace juce;
 
@@ -61,14 +62,15 @@ public:
 
 private:
     // User
-    AudioParameterInt* numTaps;
-    AudioParameterFloat* wetDry;
+    AudioParameterFloat* wetDryParam;
 
     // Private algo nums
+    int numTaps = 1;
     float wetGain, dryGain;
-    std::vector<DelayModule> taps;
+    std::vector<DelayParams> taps;
 
     // Helper methods
+    void setWetDryBalance(float userIn);
     void calcAlgorithmParams();
     
     //==============================================================================

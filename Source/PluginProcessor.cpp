@@ -24,11 +24,36 @@ ChaseGP03MMTDAudioProcessor::ChaseGP03MMTDAudioProcessor()
                        )
 #endif
 {
-    addParameter(numTaps = new AudioParameterInt("Number of Taps", // parameterID,
-        "NumTaps", // parameterName,
-        1, // minValue,
-        8, // maxValue,
-        1)); // default 1 tap
+    addParameter(wetDryParam = new AudioParameterFloat("Wet/Dry", // parameterID,
+        "WetDry", // parameterName,
+        -1.0f, // fully dry,
+        1.0f, // fully wet,
+        0)); // wet and dry mixed equally by default
+
+    AudioParameterFloat* tempDly;
+    AudioParameterFloat* tempFb;
+    AudioParameterBool* tempEnab;
+
+    for (int i = 0; i < numTaps; i++) {
+        addParameter(tempDly = new AudioParameterFloat("delay" + std::to_string(i + 1), // parameterID,
+            "Delay " + std::to_string(i + 1) + " (ms)", // parameterName,
+            0.0f, // minValue,
+            5000.0f, // maxValue,
+            40.0f + (20.0f * i))); // default
+
+        addParameter(tempFb = new AudioParameterFloat("fb" + std::to_string(i + 1), // parameterID,
+            "Feedback " + std::to_string(i + 1) + " (%)", // parameterName,
+            0.0f, // minValue,
+            100.0f, // maxValue,
+            15.0f)); // default
+
+        addParameter(tempEnab = new AudioParameterBool("enabled" + std::to_string(i + 1), // parameterID,
+            "Enabled " + std::to_string(i + 1) + "", // parameterName,
+            true)); // default
+
+        taps.push_back(DelayParams(tempEnab, tempFb, tempDly));
+    }
+    
 }
 
 ChaseGP03MMTDAudioProcessor::~ChaseGP03MMTDAudioProcessor()
@@ -136,32 +161,37 @@ bool ChaseGP03MMTDAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
+void ChaseGP03MMTDAudioProcessor::setWetDryBalance(float userIn) {
+    userIn *= 0.5;
+    wetGain = userIn + 0.5f;
+    dryGain = abs(userIn - 0.5f); // can be negative
+}
+
+void ChaseGP03MMTDAudioProcessor::calcAlgorithmParams() {
+    setWetDryBalance(wetDryParam->get());
+}
+
 void ChaseGP03MMTDAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    // run calculations
+    calcAlgorithmParams();
 
-        // ..do something to the data...
+    auto* channelL = buffer.getWritePointer(0);
+    auto* channelR = buffer.getWritePointer(1);
+
+    for (int samp = 0; samp < buffer.getNumSamples(); samp++)
+    {
+        // Apply each filter in sequence
+        for (int i = 0; i < numTaps; i++) {
+            //channelL[samp] = filterLs[i].tick(channelL[samp]);
+            //channelR[samp] = filterRs[i].tick(channelR[samp]);
+        }
     }
 }
 

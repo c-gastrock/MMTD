@@ -12,6 +12,36 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="jxJX2r" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <GROUP id="{0B457251-1C89-7C87-5A78-D438EC668B99}" name="StkLite-4.6.2">
+      <FILE id="S8q5x7" name="BiQuad.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/BiQuad.cpp"/>
+      <FILE id="cEHMOQ" name="BiQuad.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/BiQuad.h"/>
+      <FILE id="lM7Cp5" name="Delay.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Delay.cpp"/>
+      <FILE id="aF6vFC" name="Delay.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Delay.h"/>
+      <FILE id="NmSpxI" name="DelayA.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/DelayA.cpp"/>
+      <FILE id="taphsW" name="DelayA.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/DelayA.h"/>
+      <FILE id="HGgPK4" name="DelayL.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/DelayL.cpp"/>
+      <FILE id="yoMkFS" name="DelayL.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/DelayL.h"/>
+      <FILE id="ypf2D5" name="Filter.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Filter.h"/>
+      <FILE id="xB4yoC" name="Fir.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Fir.cpp"/>
+      <FILE id="NuLaGr" name="Fir.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Fir.h"/>
+      <FILE id="BCsRU0" name="FormSwep.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/FormSwep.cpp"/>
+      <FILE id="vS756H" name="FormSwep.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/FormSwep.h"/>
+      <FILE id="T3nU3a" name="Iir.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Iir.h"/>
+      <FILE id="sSdUiJ" name="OnePole.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/OnePole.cpp"/>
+      <FILE id="CX2XEI" name="OnePole.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/OnePole.h"/>
+      <FILE id="d0LHoq" name="OneZero.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/OneZero.cpp"/>
+      <FILE id="yk0QJh" name="OneZero.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/OneZero.h"/>
+      <FILE id="xAVDwS" name="PoleZero.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/PoleZero.cpp"/>
+      <FILE id="ltbgzq" name="PoleZero.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/PoleZero.h"/>
+      <FILE id="QuEr5w" name="Stk.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Stk.cpp"/>
+      <FILE id="E9GvWx" name="Stk.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/Stk.h"/>
+      <FILE id="rtlXah" name="TapDelay.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/TapDelay.cpp"/>
+      <FILE id="Ja3FL1" name="TapDelay.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/TapDelay.h"/>
+      <FILE id="htQH7U" name="TwoPole.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/TwoPole.cpp"/>
+      <FILE id="PHYwrA" name="TwoPole.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/TwoPole.h"/>
+      <FILE id="nAxf6t" name="TwoZero.cpp" compile="1" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/TwoZero.cpp"/>
+      <FILE id="DFhGW0" name="TwoZero.h" compile="0" resource="0" file="Source/StkLite-4.6.2/StkLite-4.6.2/TwoZero.h"/>
+    </GROUP>
     <FILE id="CK27is" name="DelayModule.cpp" compile="1" resource="0" file="Source/DelayModule.cpp"/>
     <FILE id="ey5ICb" name="DelayModule.h" compile="0" resource="0" file="Source/DelayModule.h"/>
   </MAINGROUP>
