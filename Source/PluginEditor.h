@@ -30,6 +30,8 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     ChaseGP03MMTDAudioProcessor& audioProcessor;
+    int numTaps = 3;
+    std::vector<DelayModule> delayModules;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChaseGP03MMTDAudioProcessorEditor)
 };

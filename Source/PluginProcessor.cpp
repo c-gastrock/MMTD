@@ -59,6 +59,9 @@ ChaseGP03MMTDAudioProcessor::ChaseGP03MMTDAudioProcessor()
             true)); // default
 
         tapParamList.push_back(DelayParams(tempEnab, tempFb, tempGain, tempDly));
+
+        delaysL.push_back(stk::Delay());
+        delaysR.push_back(stk::Delay());
     }
     
 }
@@ -137,8 +140,8 @@ void ChaseGP03MMTDAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     int maxSamps = calcMsecToSamps(MAXDELAYMS);
 
     for (int i = 0; i < numTaps; i++) {
-        delayL.setMaximumDelay(maxSamps);
-        delayR.setMaximumDelay(maxSamps);
+        delaysL[i].setMaximumDelay(maxSamps);
+        delaysR[i].setMaximumDelay(maxSamps);
     }
 }
 
@@ -187,12 +190,12 @@ void ChaseGP03MMTDAudioProcessor::setWetDryBalance(float userIn) {
 void ChaseGP03MMTDAudioProcessor::calcAlgorithmParams() {
     setWetDryBalance(wetDryParam->get());
 
-    //int sampsDelay;
-    //for (int i = 0; i < numTaps; i++) {
-        //sampsDelay = calcMsecToSamps(tapParamList[i].delay->get());
-        //delayL.setDelay(sampsDelay);
-        //delayR.setDelay(sampsDelay);
-    //}
+    int sampsDelay;
+    for (int i = 0; i < numTaps; i++) {
+        sampsDelay = calcMsecToSamps(tapParamList[i].delay->get());
+        delaysL[i].setDelay(sampsDelay);
+        delaysR[i].setDelay(sampsDelay);
+    }
 }
 
 void ChaseGP03MMTDAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
@@ -214,23 +217,27 @@ void ChaseGP03MMTDAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     {
         tapTotalL = 0.0f;
         tapTotalR = 0.0f;
-        tempL = delayL.nextOut();
-        tempR = delayR.nextOut();
 
         for (int i = 0; i < numTaps; i++) {
             // only calc for enabled taps
             if (!tapParamList[i].enabled->get())
                 continue;
+
+            tempL = delaysL[i].nextOut();
+            tempR = delaysR[i].nextOut();
+
+            // get relevant params for each delay line
             fbGain = Decibels::decibelsToGain(tapParamList[i].feedback->get());
             dlyGain = Decibels::decibelsToGain(tapParamList[i].gain->get());
+            //sampsDelay = calcMsecToSamps(tapParamList[i].delay->get());
 
-            sampsDelay = calcMsecToSamps(tapParamList[i].delay->get());
-            tapTotalL += dlyGain*delayL.tapOut(sampsDelay);
-            tapTotalR += dlyGain*delayR.tapOut(sampsDelay);
+            // get output of each "tap" and add to a temp variable to add into main out
+            // not really taps using tapOut, using tick with multiple delays to allow
+            // individual feedback per line.
+            tapTotalL += dlyGain*delaysL[i].tick(channelL[samp] + fbGain * tempL);
+            tapTotalR += dlyGain*delaysR[i].tick(channelR[samp] + fbGain * tempR);
+            
         }
-
-        delayL.tick(channelL[samp] + fbGain*tempL);
-        delayR.tick(channelR[samp] + fbGain*tempR);
 
         channelL[samp] = dryGain*channelL[samp] + wetGain*tapTotalL;
         channelR[samp] = dryGain*channelR[samp] + wetGain*tapTotalR;

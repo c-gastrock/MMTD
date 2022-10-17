@@ -72,7 +72,7 @@ private:
     float wetGain, dryGain;
     std::vector<DelayParams> tapParamList;
 
-    stk::Delay delayL, delayR;
+    std::vector<stk::Delay> delaysL, delaysR;
     float mFs;
 
     // Helper methods
