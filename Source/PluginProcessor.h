@@ -12,6 +12,9 @@
 #include "DelayModule.h"
 #include "StkLite-4.6.2/StkLite-4.6.2/Delay.h"
 
+#define MAXDELAYMS 2500.0f // 2500.0 b/c could potentially have many taps
+#define PI MathConstants<float>::pi
+
 using namespace juce;
 
 //==============================================================================
@@ -64,14 +67,18 @@ private:
     // User
     AudioParameterFloat* wetDryParam;
 
-    // Private algo nums
-    int numTaps = 1;
+    // Private algo
+    int numTaps = 3;
     float wetGain, dryGain;
-    std::vector<DelayParams> taps;
+    std::vector<DelayParams> tapParamList;
+
+    stk::Delay delayL, delayR;
+    float mFs;
 
     // Helper methods
     void setWetDryBalance(float userIn);
     void calcAlgorithmParams();
+    int calcMsecToSamps(float maxDelay);
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChaseGP03MMTDAudioProcessor)

@@ -8,9 +8,10 @@ class DelayParams {
 		AudioParameterBool* enabled;
 		AudioParameterFloat* feedback;
 		AudioParameterFloat* delay; // maybe int
+		AudioParameterFloat* gain;
 
 		DelayParams();
-		DelayParams(AudioParameterBool* enabled, AudioParameterFloat* feedback, AudioParameterFloat* delay);
+		DelayParams(AudioParameterBool* enabled, AudioParameterFloat* feedback, AudioParameterFloat* gain, AudioParameterFloat* delay);
 };
 	
 class DelayModule : Component
@@ -19,8 +20,9 @@ class DelayModule : Component
 		ToggleButton* enabledBt;
 		Slider* feedbackKnob; // % feedback
 		Slider* delayKnob; // delay amount
+		Slider* gainKnob;
 
 		DelayModule();
-		DelayModule(Slider* feedbackKnob, Slider* delayKnob, ToggleButton* enabledBt);
+		DelayModule(Slider* feedbackKnob, Slider* delayKnob, Slider* gainKnob, ToggleButton* enabledBt);
 };
 
